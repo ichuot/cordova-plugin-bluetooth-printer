@@ -269,6 +269,8 @@ public class MKBluetoothPrinter extends CordovaPlugin {
             size = args.getString(0);
             if("58".equals(size)){
                 LINE_BYTE_SIZE=32;
+	    }else if("29".equals(size)) {
+		    LINE_BYTE_SIZE=29;
             }else{
                 LINE_BYTE_SIZE=48;
             }
