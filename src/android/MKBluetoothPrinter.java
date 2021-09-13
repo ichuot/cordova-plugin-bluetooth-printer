@@ -56,8 +56,8 @@ public class MKBluetoothPrinter extends CordovaPlugin {
     private String boothAddress = "";
     private String oneModel, drawingRev, oneClass, oneCode, chipId, dateTime, specification = "";
 
-    private boolean isConnection = false;//蓝牙是否连接
-    private boolean isKeep = false;//蓝牙持续回调
+    private boolean isConnection = false;//Có kết nối Bluetooth không
+    private boolean isKeep = false;//Gọi lại liên tục qua Bluetooth
     private BluetoothDevice device = null;
     private static BluetoothSocket bluetoothSocket = null;
     private static OutputStream outputStream = null;
@@ -67,70 +67,70 @@ public class MKBluetoothPrinter extends CordovaPlugin {
     private static  String name_bl ="";
 
     /**
-     * 复位打印机
+     * Đặt lại máy in
      */
     public static final byte[] RESET = {0x1b, 0x40};
 
     /**
-     * 左对齐
+     * Căn trái
      */
     public static final byte[] ALIGN_LEFT = {0x1b, 0x61, 0x00};
 
     /**
-     * 中间对齐
+     * Trung tâm liên kêt
      */
     public static final byte[] ALIGN_CENTER = {0x1b, 0x61, 0x01};
 
     /**
-     * 右对齐
+     * Sắp xếp đúng
      */
     public static final byte[] ALIGN_RIGHT = {0x1b, 0x61, 0x02};
 
     /**
-     * 选择加粗模式
+     * Chọn chế độ in đậm
      */
     public static final byte[] BOLD = {0x1b, 0x45, 0x01};
 
     /**
-     * 取消加粗模式
+     * Hủy chế độ in đậm
      */
     public static final byte[] BOLD_CANCEL = {0x1b, 0x45, 0x00};
 
     /**
-     * 宽高加倍
+     * Nhân đôi chiều rộng và chiều cao
      */
     public static final byte[] DOUBLE_HEIGHT_WIDTH = {0x1d, 0x21, 0x11};
 
     /**
-     * 宽加倍
+     * Chiều rộng gấp đôi
      */
     public static final byte[] DOUBLE_WIDTH = {0x1d, 0x21, 0x10};
 
     /**
-     * 高加倍
+     * Cao gấp đôi
      */
     public static final byte[] DOUBLE_HEIGHT = {0x1d, 0x21, 0x01};
 
     /**
-     * 字体不放大
+     * Phông chữ không được phóng to
      */
     public static final byte[] NORMAL = {0x1d, 0x21, 0x00};
 
     /**
-     * 设置默认行间距
+     * Đặt giãn cách dòng mặc định
      */
     public static final byte[] LINE_SPACING_DEFAULT = {0x1b, 0x32};
 
     /**
-     * 打印纸一行最大的字节
+     * Byte lớn nhất của một dòng giấy in
      */
     private static  int LINE_BYTE_SIZE = 48;
 
 
-    // 对齐方式
-    public static final int ALIGN_LEFT_NEW = 0;     // 靠左
-    public static final int ALIGN_CENTER_NEW = 1;   // 居中
-    public static final int ALIGN_RIGHT_NEW  = 2;    // 靠右
+    // Căn chỉnh
+    public static final int ALIGN_LEFT_NEW = 0;     // Đi bên trái
+    public static final int ALIGN_CENTER_NEW = 1;   // Căn giữa
+    public static final int ALIGN_RIGHT_NEW  = 2;    // Đi bên phải
 
     //字体大小
     public static final int FONT_NORMAL_NEW  = 0;    // 正常
@@ -249,13 +249,13 @@ public class MKBluetoothPrinter extends CordovaPlugin {
                     uuid_bl=device.getAddress();
                     outputStream = bluetoothSocket.getOutputStream();
                     isConnection = true;
-                    callbackContext.success("连接成功");
+                    callbackContext.success("kết nối thành công");
                 } catch (Exception e) {
                     isConnection = false;
-                    callbackContext.error("连接失败");
+                    callbackContext.error("Kết nối thất bại");
                 }
             } else {//连接了
-                callbackContext.success("连接成功");
+                callbackContext.success("kết nối thành công");
             }
         }
     }
@@ -316,12 +316,12 @@ public class MKBluetoothPrinter extends CordovaPlugin {
             bluetoothSocket.close();
             outputStream.close();
             isConnection = false;
-            callbackContext.success("断开连接成功！");
+            callbackContext.success("Đã ngắt kết nối thành công!");
 
         } catch (IOException e) {
 
             isConnection = true;
-            callbackContext.error("断开连接失败！");
+            callbackContext.error("Không ngắt kết nối được!");
 
         }
     }
@@ -340,13 +340,13 @@ public class MKBluetoothPrinter extends CordovaPlugin {
                 isConnection = true;
                 name_bl=device.getName();
                 uuid_bl=device.getAddress();
-                callbackContext.success("连接成功");
+                callbackContext.success("kết nối thành công");
             } catch (Exception e) {
                 isConnection = false;
-                callbackContext.error("连接失败");
+                callbackContext.error("Kết nối thất bại");
             }
         } else {//连接了
-            callbackContext.success("连接成功");
+            callbackContext.success("kết nối thành công");
         }
 
     }
@@ -390,7 +390,7 @@ public class MKBluetoothPrinter extends CordovaPlugin {
             }
             callbackContext.success(json);
         } else {
-            callbackContext.error("未有配对蓝牙");
+            callbackContext.error("Bluetooth không được ghép nối");
 
         }
     }
@@ -401,7 +401,7 @@ public class MKBluetoothPrinter extends CordovaPlugin {
     private void stopScan(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         // Get the local Bluetooth adapter
         isKeep = false;
-        callbackContext.success("停止扫描成功");
+        callbackContext.success("Dừng quét thành công");
 
     }
 
@@ -432,13 +432,13 @@ public class MKBluetoothPrinter extends CordovaPlugin {
                    }
                   
                }
-                callbackContext.success("打印成功！");
+                callbackContext.success("Đã in thành công!");
             } catch (Exception e) {
                 e.printStackTrace();
-                callbackContext.error("打印失败！" + e.getMessage());
+                callbackContext.error("In không thành công!" + e.getMessage());
             }
         } else {
-            callbackContext.error("设备未连接，请重新连接！");
+            callbackContext.error("Thiết bị không được kết nối, vui lòng kết nối lại!");
         }
     }
 
